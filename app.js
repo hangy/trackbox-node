@@ -27,10 +27,12 @@ function getUsername(req) {
 function handleGetRequest(req, res) {
     var username = getUsername(req);
     var u = url.parse(req.url, true);
-    if (u && u.query && u.query.state && (u.query.state === 'Inside' || u.query.state === 'Outside')) {
+    if (u && u.query && u.query.geofence && u.query.state && (u.query.state === 'Inside' || u.query.state === 'Outside')) {
       insertNewEvent(req, res, username, u);
-    } else {
+    } else if (u && u.query && u.query.geofence && !(u.query.state && (u.query.state === 'Inside' || u.query.state === 'Outside'))) {
       getLatestEvent(req, res, username, u);
+    } else {
+      getAllEvents(req, res, username, u);
     }
 }
 
@@ -46,7 +48,6 @@ function insertNewEvent(req, res, username, u) {
 
   getEventCollection(function(err, conn, coll) {
     if (err) {
-      conn.close();
       writeErr(res, err);
     } else {
       coll.insert(event, {safe: true}, function(err, records) {
@@ -62,10 +63,9 @@ function insertNewEvent(req, res, username, u) {
   });
 }
 
-function getLatestEvent(req, res, username, u) {
+function getLatestEvent(req, res, username, geofence, u) {
   getEventCollection(function(err, conn, coll) {
     if (err) {
-      conn.close();
       writeErr(res, err);
     } else {
       var query = {
@@ -100,6 +100,31 @@ function getLatestEvent(req, res, username, u) {
 
           conn.close();
           res.end();
+        }
+      });
+    }
+  });
+}
+
+function getAllEvents(req, res, username, geofence, u) {
+  getEventCollection(function(err, conn, coll) {
+    if (err) {
+      writeErr(res, err);
+    } else {
+      var query = {
+        entityType: 'user',
+        entityId: username
+      };
+      var options = {
+        sort: [['eventTime', 'desc']]
+      };
+      coll.find(query, options).toArray(function(err, documents) {
+        if (err) {
+          conn.close();
+          writeErr(res, err);
+        } else {
+          conn.close();
+          writeResult(res, documents);
         }
       });
     }
