@@ -30,7 +30,7 @@ function handleGetRequest(req, res) {
     if (u && u.query && u.query.geofence && u.query.state && (u.query.state === 'Inside' || u.query.state === 'Outside')) {
       insertNewEvent(req, res, username, u);
     } else if (u && u.query && u.query.geofence && !(u.query.state && (u.query.state === 'Inside' || u.query.state === 'Outside'))) {
-      getLatestEvent(req, res, username, u);
+      getLatestEvent(req, res, username, u.query.geofence, u);
     } else {
       getAllEvents(req, res, username, u);
     }
