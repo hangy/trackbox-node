@@ -5,9 +5,9 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
-    "request-json": "^0.4.13",
-    "q": "^1.1.2",
-    "mongodb": "^1.4.19"
+    "request-json": "^0.6.1",
+    "q": "^1.4.1",
+    "mongodb": "^2.2.22"
   },
   "devDependencies": {},
   "scripts": {
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/moneticfox/trackbox-node.git"
+    "url": "git@github.com:hangy/trackbox-node.git"
   },
   "keywords": [
     "geofence",
