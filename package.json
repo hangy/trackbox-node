@@ -5,9 +5,9 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
-    "request-json": "^0.6.1",
+    "mongodb": "^3.1.13",
     "q": "^1.4.1",
-    "mongodb": "^3.1.13"
+    "request-json": "^0.6.4"
   },
   "devDependencies": {},
   "scripts": {
