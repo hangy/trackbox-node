@@ -5,7 +5,7 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
-    "mongodb": "^3.5.7",
+    "mongodb": "^3.5.8",
     "q": "^1.5.1",
     "request-json": "^0.6.5"
   },
